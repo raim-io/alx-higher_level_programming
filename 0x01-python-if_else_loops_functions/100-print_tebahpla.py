@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
-for i in range(122, 96, -1):
-    print("{}".format(chr(i - 32) if i % 2 != 0 else chr(i)), end="")
-print()
+for i in range(ord('z'), ord('a') - 1, -1):
+	if i % 2 == 0:
+		case = 0
+	else:
+		case = 32
+	print("{}".format(chr(i - case)), end="")
