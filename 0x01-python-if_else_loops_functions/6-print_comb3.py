@@ -6,4 +6,4 @@ for i in range(9):
         if i != 8:
             print("{:02d}, ".format(i * 10 + j), end="")
         else:
-            print("{:02d}".format(i * 10 +j))
+            print("{:02d}".format(i * 10 + j))
