@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
-for col in range(len(matrix)):
-	for row in range(len(matrix[col])):
-		if row != 0:
-			print(" ", end='')
-		print("{:d}".format(matrix[col][row]), end='')
-	print()
+for col in matrix:
+    for row in col:
+        print("{:d}".format(col), end=" " if row != col[-1] else "")
+    print()
