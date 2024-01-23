@@ -1,112 +1,114 @@
 #include "lists.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-int compare_lists(listint_t *head1, listint_t *head2);
-listint_t *reverse_list(listint_t **head);
-int is_palindrome(listint_t **head);
 
 /**
- * is_palindrome - checks if a singly linked list is a palindrome
- * @head: double pointer to the head of the list
- * Return: 0 if it is not a palindrome, 1 if it is a palindrome
+ * reverse - reverses the second half of the list
+ *
+ * @h_r: head of the second half
+ * Return: no return
+ */
+void reverse(listint_t **h_r)
+{
+	listint_t *prv;
+	listint_t *crr;
+	listint_t *nxt;
+
+	prv = NULL;
+	crr = *h_r;
+
+	while (crr != NULL)
+	{
+		nxt = crr->next;
+		crr->next = prv;
+		prv = crr;
+		crr = nxt;
+	}
+
+	*h_r = prv;
+}
+
+/**
+ * compare - compares each int of the list
+ *
+ * @h1: head of the first half
+ * @h2: head of the second half
+ * Return: 1 if are equals, 0 if not
+ */
+int compare(listint_t *h1, listint_t *h2)
+{
+	listint_t *tmp1;
+	listint_t *tmp2;
+
+	tmp1 = h1;
+	tmp2 = h2;
+
+	while (tmp1 != NULL && tmp2 != NULL)
+	{
+		if (tmp1->n == tmp2->n)
+		{
+			tmp1 = tmp1->next;
+			tmp2 = tmp2->next;
+		}
+		else
+		{
+			return (0);
+		}
+	}
+
+	if (tmp1 == NULL && tmp2 == NULL)
+	{
+		return (1);
+	}
+
+	return (0);
+}
+
+/**
+ * is_palindrome - checks if a singly linked list
+ * is a palindrome
+ * @head: pointer to head of list
+ * Return: 0 if it is not a palindrome,
+ * 1 if it is a palndrome
  */
 int is_palindrome(listint_t **head)
 {
-	listint_t *fast = *head, *slow = *head;
-	listint_t *second_half, *prev_of_slow = *head;
-	listint_t *midnode = NULL; // To handle odd size list
-	int res = 1;			   // Assume list is palindrome
+	listint_t *slow, *fast, *prev_slow;
+	listint_t *scn_half, *middle;
+	int isp;
+
+	slow = fast = prev_slow = *head;
+	middle = NULL;
+	isp = 1;
 
 	if (*head != NULL && (*head)->next != NULL)
 	{
-		// Find the middle of the list
 		while (fast != NULL && fast->next != NULL)
 		{
 			fast = fast->next->next;
-			prev_of_slow = slow;
+			prev_slow = slow;
 			slow = slow->next;
 		}
 
-		/* fast would be NULL when there are even elements in list.
-		 * And not NULL for odd elements. We need to skip the middle node
-		 * for odd case and store it somewhere in case we need to restore
-		 * the original list */
 		if (fast != NULL)
 		{
-			midnode = slow;
+			middle = slow;
 			slow = slow->next;
 		}
 
-		// Now reverse the second half and compare it with the first half
-		second_half = slow;
-		prev_of_slow->next = NULL;				 // NULL terminate first half
-		reverse_list(&second_half);				 // Reverse the second half
-		res = compare_lists(*head, second_half); // compare
+		scn_half = slow;
+		prev_slow->next = NULL;
+		reverse(&scn_half);
+		isp = compare(*head, scn_half);
 
-		// Construct the original list back
-		reverse_list(&second_half); // Reverse the second half again
-
-		// If there was a mid node (odd size case) which
-		// was not part of either first half or second half.
-		if (midnode != NULL)
+		if (middle != NULL)
 		{
-			prev_of_slow->next = midnode;
-			midnode->next = second_half;
+			prev_slow->next = middle;
+			middle->next = scn_half;
 		}
 		else
 		{
-			prev_of_slow->next = second_half;
+			prev_slow->next = scn_half;
 		}
 	}
 
-	return res;
-}
-
-/* Function to reverse the linked list */
-listint_t *reverse_list(listint_t **head_ref)
-{
-	listint_t *prev = NULL;
-	listint_t *current = *head_ref;
-	listint_t *next;
-
-	while (current != NULL)
-	{
-		next = current->next;
-		current->next = prev;
-		prev = current;
-		current = next;
-	}
-
-	*head_ref = prev;
-	return *head_ref;
-}
-
-/* Function to check if two input lists have same data */
-int compare_lists(listint_t *head1, listint_t *head2)
-{
-	listint_t *temp1 = head1;
-	listint_t *temp2 = head2;
-
-	while (temp1 && temp2)
-	{
-		if (temp1->n == temp2->n)
-		{
-			temp1 = temp1->next;
-			temp2 = temp2->next;
-		}
-		else
-		{
-			return 0;
-		}
-	}
-
-	// Both are empty return 1
-	if (temp1 == NULL && temp2 == NULL)
-	{
-		return 1;
-	}
-
-	// Will reach here when one is NULL and other is not
-	return 0;
+	return (isp);
 }
