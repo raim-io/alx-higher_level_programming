@@ -13,8 +13,6 @@ def common_elements(set_1, set_2):
 
     return comm_elem
 
-"""alternatively,
-def common_elements(set_1, set_2):
-
-    return(set_1 & set_2)
-"""
+# alternatively,
+# def common_elements(set_1, set_2):
+#    return(set_1 & set_2)
