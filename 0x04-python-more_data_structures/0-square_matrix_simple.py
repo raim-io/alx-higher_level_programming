@@ -7,4 +7,4 @@ def square_matrix_simple(matrix=[]):
         res = list(map(lambda x: x**2, row))
         _matrix.append(res)
 
-    return matrix
+    return _matrix
