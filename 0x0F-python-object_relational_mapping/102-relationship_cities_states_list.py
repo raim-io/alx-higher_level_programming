@@ -16,11 +16,9 @@ if __name__ == '__main__':
     Session = sessionmaker(bind=engine)
     newSession = Session()
 
-    states = newSession.query(State).order_by(State.id)
+    cities = newSession.query(City).order_by(City.id)
 
-    for state in states:
-        print(f"{state.id}: {state.name}")
-        for city in state.cities:
-            print(f"    {city.id}: {city.name}")
+    for city in cities:
+        print(f"{city.id}: {city.name} -> {city.state.name}")
 
     newSession.close()
