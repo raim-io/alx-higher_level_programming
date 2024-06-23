@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""List all 'State' object"""
+"""Create/save a new 'State' object"""
 
 from sys import argv
 from model_state import Base, State
@@ -15,11 +15,10 @@ if __name__ == '__main__':
     Session = sessionmaker(bind=engine)
     newSession = Session()
 
-    state = newSession.query(
-        State).order_by(State.id).filter_by(name=argv[4]).first()
-    if state:
-        print(f"{state.id}: {state.name}")
-    else:
-        print('Not found')
+    newState = State(name="Louisiana")
+    newSession.add(newState)
+    newSession.commit()
+
+    print(newState.id)
 
     newSession.close()
