@@ -16,8 +16,7 @@ if __name__ == '__main__':
     newSession = Session()
 
     states = newSession.query(
-        State).order_by(State.id).whereclause(
-            'states LIKE %a%')
+        State).order_by(State.id).filter(State.name.like('%a%'))
     for state in states:
         print(f"{state.id}: {state.name}")
 
