@@ -6,16 +6,20 @@ and avoid SQL injections"""
 from sys import argv
 import MySQLdb
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     conn = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
                            passwd=argv[2], db=argv[3], charset="utf8")
-    stateName = argv[4]
-    query = """SELECT * FROM states WHERE name LIKE %s
-    ORDER BY id ASC"""
     cur = conn.cursor()
-    cur.execute(query, (stateName, ))
+    cur.execute("""
+                SELECT cities.name
+                FROM cities
+                JOIN states ON states.id = cities.state_id
+                WHERE states.name = %s
+                """, (argv[4], ))
     query_rows = cur.fetchall()
-    for row in query_rows:
-        print(row)
+
+    cities = [row[0] for row in query_rows]
+    print(", ".join(cities))
+
     cur.close()
     conn.close()
