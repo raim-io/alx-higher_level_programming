@@ -16,10 +16,9 @@ if __name__ == '__main__':
     newSession = Session()
 
     state = newSession.query(
-        State).order_by(State.id).filter_by(name=argv[4]).first()
+        State).filter_by(id=2).first()
     if state:
-        print(f"{state.id}")
-    else:
-        print('Not found')
+        state.name = 'New Mexico'
+        newSession.commit()
 
     newSession.close()
