@@ -3,7 +3,7 @@
 class definition of 'State' model
 """
 
-from sqlalchemy.types import Column, Integer, String, MetaData
+from sqlalchemy import Column, Integer, String, MetaData
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import (declarative_base)
 
