@@ -16,7 +16,7 @@ if __name__ == '__main__':
     newSession = Session()
 
     states = newSession.query(
-        State).filter_by(State.name.like('%a%'))
+        State).filter(State.name.like('%a%'))
     for state in states:
         newSession.delete(state)
 
