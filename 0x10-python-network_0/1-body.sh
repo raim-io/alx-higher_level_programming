@@ -1,3 +1,3 @@
 #!/bin/bash
 # Display input URL's response body
-curl -s "$1"
+curl -sL "$1"
